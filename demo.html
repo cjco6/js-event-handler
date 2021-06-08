@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Event Handler Demo</title>
+	</head>
+	<body>
+		<div id="uniqueElement">Unique Element</div>
+		<div class="container">Container</div>
+		<div class="container">Container</div>
+		<div class="container excluded">Excluded Container</div>
+
+		<script src="event-handler.js"></script>
+		<script>
+			const EVENTS = handleEvents({
+				"load": {
+					"window": function() {
+						console.log("Window has loaded!");
+					},
+				},
+				"click": {
+					"body": function(e) {
+						console.log(e.target);
+					},
+					"#uniqueElement": function(e, color="red") {
+						this.style.background = color;
+					},
+				},
+				"mouseover": {
+					".container:not(.excluded)": function(e) {
+						EVENTS["click"]["#uniqueElement"].call(this, e, "blue");
+					},
+				}
+			});
+		</script>
+	</body>
+</html>
